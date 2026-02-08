@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitality Dashboard Login</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background: #ffffff;
+      --card-surface: #f8fafc;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --accent-primary: #3b82f6;
+      --accent-primary-hover: #2563eb;
+      --accent-secondary: #10b981;
+      --border-color: #e2e8f0;
+      --input-bg: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .app-wrapper {
+      min-height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .logo-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    .app-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .app-tagline {
+      font-size: 15px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .auth-card {
+      background: var(--card-surface);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 15px;
+      color: var(--text-primary);
+      background: var(--input-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .helper-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      display: block;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .form-links {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .form-link {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: inline-block;
+      margin: 0 8px;
+    }
+
+    .form-link:hover {
+      color: var(--accent-primary-hover);
+      text-decoration: underline;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 24px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: var(--border-color);
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 32px 24px;
+      }
+
+      .app-title {
+        font-size: 24px;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .app-wrapper {
+        padding: 40px 24px;
+      }
+
+      .auth-container {
+        max-width: 460px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+
+
+ 
+ <body>
+  <div class="app-wrapper">
+   <div class="auth-container">
+    <div class="logo-section">
+     <div class="logo-icon">
+      <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.18l8 3.6v8.55c0 4.35-2.98 8.42-7 9.83-4.02-1.41-7-5.48-7-9.83V7.78l6-2.7v10.42h2V4.18zm-1 6.82v2h2v-2h-2zm0 4v2h2v-2h-2z" />
+      </svg>
+     </div>
+     <h1 class="app-title" id="appTitle">Hotelmenu Pro</h1>
+     <p class="app-tagline" id="appTagline">Manage your business effortlessly</p>
+    </div><!-- LOGIN PAGE -->
+    <div class="auth-card" id="loginPage">
+     <h2 class="page-title" id="loginTitle">Welcome Back</h2>
+     <p class="page-subtitle">Sign in to access your dashboard</p>
+     <form id="loginForm">
+      <div class="form-group"><label class="form-label" for="loginEmail">Email</label>
+<input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" required>
+<span class="helper-text">Use email only (phone login is not enabled).</span>
+
+      </div>
+      <div class="form-group"><label class="form-label" for="loginPassword">Password</label> <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+      </div><button type="submit" class="btn-primary">Sign In</button>
+      <div class="form-links"><a href="#" class="form-link" id="goToRegister">Create new account</a> <span style="color: var(--border-color);">|</span> <a href="#" class="form-link" id="forgotPassword">Forgot password?</a>
+      </div>
+     </form>
+    </div><!-- REGISTRATION PAGE -->
+  
+  <div class="auth-card hidden" id="registerPage">
+  <h2 class="page-title">Create Your Account</h2>
+  <p class="page-subtitle">Register to access dashboard</p>
+
+  <form id="registerForm">
+
+
+  <div class="form-group">
+    <label class="form-label" for="ownerName">Owner Name</label>
+    <input
+      type="text"
+      id="ownerName"
+      class="form-input"
+      placeholder="Your full name"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="registerEmail">Email</label>
+    <input
+      type="email"
+      id="registerEmail"
+      class="form-input"
+      placeholder="Enter your email"
+      required
+    >
+  </div>
+
+
+
+  <div class="form-group">
+    <label class="form-label" for="registerPassword">Password</label>
+    <input
+      type="password"
+      id="registerPassword"
+      class="form-input"
+      placeholder="Create a strong password"
+      required
+    >
+  </div>
+
+  <button type="submit" class="btn-primary">Create Account</button>
+
+  <div class="form-links">
+    <a href="#" class="form-link" id="goToLogin">Already have an account? Sign in</a>
+  </div>
+
+</form>
+
+
+  <script>
+
+
+    
+    const defaultConfig = {
+      app_title: "Hotelmenu Pro",
+      tagline: "Manage your business effortlessly",
+      login_title: "Welcome Back",
+      register_title: "Create Your Account",
+      footer_text: "© 2024 Hotelmenu Pro. All rights reserved.",
+      background_color: "#ffffff",
+      card_surface_color: "#f8fafc",
+      text_color: "#1e293b",
+      accent_color: "#3b82f6",
+      secondary_accent_color: "#10b981",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const appTitle = document.getElementById('appTitle');
+      const appTagline = document.getElementById('appTagline');
+      const loginTitle = document.getElementById('loginTitle');
+      const registerTitle = document.getElementById('registerTitle');
+      const footerText = document.getElementById('footerText');
+
+      if (appTitle) appTitle.textContent = config.app_title || defaultConfig.app_title;
+      if (appTagline) appTagline.textContent = config.tagline || defaultConfig.tagline;
+      if (loginTitle) loginTitle.textContent = config.login_title || defaultConfig.login_title;
+      if (registerTitle) registerTitle.textContent = config.register_title || defaultConfig.register_title;
+      if (footerText) footerText.textContent = config.footer_text || defaultConfig.footer_text;
+
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif';
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+
+      const baseSize = config.font_size || defaultConfig.font_size;
+      document.body.style.fontSize = `${baseSize}px`;
+      if (appTitle) appTitle.style.fontSize = `${baseSize * 1.75}px`;
+      if (appTagline) appTagline.style.fontSize = `${baseSize * 0.94}px`;
+      if (loginTitle) loginTitle.style.fontSize = `${baseSize * 1.5}px`;
+      if (registerTitle) registerTitle.style.fontSize = `${baseSize * 1.5}px`;
+
+      document.documentElement.style.setProperty('--background', config.background_color || defaultConfig.background_color);
+      document.documentElement.style.setProperty('--card-surface', config.card_surface_color || defaultConfig.card_surface_color);
+      document.documentElement.style.setProperty('--text-primary', config.text_color || defaultConfig.text_color);
+      document.documentElement.style.setProperty('--accent-primary', config.accent_color || defaultConfig.accent_color);
+      document.documentElement.style.setProperty('--accent-secondary', config.secondary_accent_color || defaultConfig.secondary_accent_color);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_surface_color || defaultConfig.card_surface_color,
+              set: (value) => {
+                config.card_surface_color = value;
+                window.elementSdk.setConfig({ card_surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_accent_color || defaultConfig.secondary_accent_color,
+              set: (value) => {
+                config.secondary_accent_color = value;
+                window.elementSdk.setConfig({ secondary_accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["app_title", config.app_title || defaultConfig.app_title],
+          ["tagline", config.tagline || defaultConfig.tagline],
+          ["login_title", config.login_title || defaultConfig.login_title],
+          ["register_title", config.register_title || defaultConfig.register_title],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+
+   const loginPage = document.getElementById('loginPage');
+const registerPage = document.getElementById('registerPage');
+const goToRegister = document.getElementById('goToRegister');
+const goToLogin = document.getElementById('goToLogin');
+const forgotPassword = document.getElementById('forgotPassword');
+
+goToRegister.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginPage.classList.add("hidden");
+  registerPage.classList.remove("hidden");
+});
+
+goToLogin.addEventListener("click", (e) => {
+  e.preventDefault();
+  registerPage.classList.add("hidden");
+  loginPage.classList.remove("hidden");
+});
+
+
+ 
+
+
+    function showMessage(message, type) {
+      const existingToast = document.querySelector('.toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      
+      const colors = {
+        success: '#10b981',
+        info: '#3b82f6',
+        error: '#ef4444'
+      };
+
+      toast.style.cssText = `
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${colors[type] || colors.info};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideDown 0.3s ease;
+        max-width: 90%;
+        text-align: center;
+      `;
+
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideDown 0.3s ease reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c699c9f91d84907',t:'MTc2OTg2NjczMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+ <script type="module">
+  
+  // 🔹 Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    setDoc
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // 🔹 Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAqB7NXuoL7l01X5t3cg-gdZJS1pFRrhjg",
+    authDomain: "hotelmenupro.firebaseapp.com",
+    projectId: "hotelmenupro",
+  };
+
+  // 🔹 Init
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // 🔹 LOGIN
+  const loginForm = document.getElementById("loginForm");
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    // ✅ Email-only login guard
+if (!email.includes("@")) {
+  showMessage("Please enter a valid EMAIL. Phone number login is not enabled.", "error");
+  return;
+}
+
+
+    if (!email || !password) {
+      showMessage("Enter email and password", "error");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "../dashboard/index.html";
+    } catch (error) {
+  console.error("LOGIN ERROR:", error);
+
+  const code = error?.code || "";
+
+  if (code === "auth/user-not-found") {
+    showMessage("This admin email is not registered in Firebase Auth.", "error");
+  } else if (code === "auth/wrong-password") {
+    showMessage("Wrong password. Try again or use Forgot password.", "error");
+  } else if (code === "auth/invalid-credential") {
+    showMessage("Invalid credentials. Check the email and password carefully.", "error");
+  } else if (code === "auth/too-many-requests") {
+    showMessage("Too many attempts. Wait 1–2 minutes and try again.", "error");
+  } else if (code === "auth/user-disabled") {
+    showMessage("This account is disabled in Firebase.", "error");
+  } else if (code === "auth/invalid-email") {
+    showMessage("Invalid email format.", "error");
+  } else {
+    showMessage("Login error: " + code, "error");
+  }
+}
+
+  });
+
+  // 🔹 REGISTER
+  const registerForm = document.getElementById("registerForm");
+
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const ownerName = document.getElementById("ownerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const password = document.getElementById("registerPassword").value;
+
+    if (!ownerName || !email || !password) {
+      showMessage("All fields required", "error");
+      return;
+    }
+
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+
+      await setDoc(doc(db, "users", userCred.user.uid), {
+        ownerName,
+        email,
+        role: "admin",
+        createdAt: new Date()
+      });
+
+      showMessage("Account created! Please sign in.", "success");
+      registerForm.reset();
+      registerPage.classList.add("hidden");
+      loginPage.classList.remove("hidden");
+
+    } catch (error) {
+      showMessage(error.message, "error");
+    }
+  });
+
+  // 🔹 FORGOT PASSWORD
+  forgotPassword.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+
+    if (!email) {
+      showMessage("Enter your email first", "error");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMessage("Password reset email sent", "success");
+    } catch (error) {
+      showMessage(error.message, "error");
+    }
+  });
+</script>
+
+ </body>
+</html>
+
